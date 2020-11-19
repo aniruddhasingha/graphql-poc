@@ -1,9 +1,13 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser= require('body-parser');
 const {graphqlHTTP} = require('express-graphql');
 const {graphql,buildSchema} = require ('graphql');
 const morgan = require('morgan');
+const mongoose = require('mongoose')
 const app = express();
+const PORT=1000;
+const Events = [];
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
@@ -41,21 +45,28 @@ app.use('/graphql',graphqlHTTP({
 
     rootValue:{
         events:()=>{
-            return['Romantic, Cooking, Coding']
+            return Events;
         },
         // createEvent resolver function recieves arguments 
         createEvent:(args)=>{
-            const eventName = args.name;
-            return eventName;
+            console.log(args);
+            const event ={
+                _id:Math.random().toString(),
+                title:args.eventInput.title,
+                description:args.eventInput.description,
+                price:+args.eventInput.price,
+                date:args.eventInput.date
+            }
+
+            Events.push(event);
+            return event
         }
     },
     graphiql: true,
 }));
 
-app.get('/',(req,res)=>{
-    res.send("hello");
-})
-app.listen(1000,()=>{
-    console.log(`server running on port 1000`)
+mongoose.connect('');
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`)
 });
 
