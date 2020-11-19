@@ -1,0 +1,144 @@
+
+Simple Query
+
+In this GraphQl allows specific ask for sprecific just like name and email
+
+The Query
+{
+    user(id:"100"){
+        name,
+        email
+    }
+}
+
+The Data
+
+{
+    "user":{
+        "id":"100",
+        "name":"John Doe",
+        "email":"john@gmail.com"
+    }
+}
+
+Multiple Resources
+
+In this GraphQl allows specific ask for sprecific just like name and email
+and post of the user here it's just the title of the post, sub-selection of fields for that object.
+
+The Query
+{
+    user(id:"100"){
+        name,
+        email,
+        posts{
+            title
+        }
+    }
+}
+
+The Data
+
+{
+    "user":{
+        "id":"100",
+        "name":"John Doe",
+        "email":"john@gmail.com",
+        "posts":[
+            {"title":"Post 1"},
+            {"title":"Post 2"}
+        ]
+    }
+}
+
+GraphQl Types
+
+GraphQl APIS are organized in terms of types and fields
+
+The Query
+{
+    user:User
+}
+
+The Data
+
+
+    Type User{
+        name:String
+        email:Int
+        friends:[User]
+    }
+
+
+** GraphiQl Tool
+
+GraphQl add the ability to pass arguments to fields, things get much more interesting.
+
+The Query
+
+{
+  human(id: "1000") {
+    name
+    height
+  }
+}
+
+The Data
+
+{
+  "data": {
+    "human": {
+      "name": "Luke Skywalker",
+      "height": 1.72
+    }
+  }
+}
+
+In GraphQL, every field and nested object can get its own set of arguments,
+making GraphQL a complete replacement for making multiple API fetches.
+
+The Query
+
+{
+  human(id: "1000") {
+    name
+    height(unit: FOOT)
+  }
+}
+
+The Data
+
+{
+  "data": {
+    "human": {
+      "name": "Luke Skywalker",
+      "height": 5.6430448
+    }
+  }
+}
+
+Aliases - If the result object fields match the name of the field in the query but don't include arguments, we can't directly query for the same field with different arguments
+
+{
+  empireHero: hero(episode: EMPIRE) {
+    name
+  }
+  jediHero: hero(episode: JEDI) {
+    name
+  }
+}
+
+{
+  "data": {
+    "empireHero": {
+      "name": "Luke Skywalker"
+    },
+    "jediHero": {
+      "name": "R2-D2"
+    }
+  }
+}
+
+Routes:-  Query / Mutation / Subscription
+Controller:- Resolvers
+
